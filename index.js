@@ -3,9 +3,8 @@ import cors from 'cors';
 import mongoose from 'mongoose';
 import { transactionRouter as routes } from './routes/routes.js';
 import dotenv from 'dotenv';
-import dirname from 'es-dirname';
 import path from 'path';
-console.log(dirname());
+const __dirname = path.resolve().normalize();
 /**
  * Faz a leitura do arquivo
  * ".env" por padrão
@@ -19,7 +18,7 @@ app.use(express.json());
 /**
  * Vinculando o React ao app
  */
-app.use(express.static(path.join(dirname(), 'client/build')));
+app.use(express.static(path.join(__dirname, 'client\build')));
 
 /**
  * Rota raiz
@@ -50,7 +49,7 @@ mongoose.connect(
   },
   (err) => {
     if (err) {
-      connectedToMongoDB = false;
+      let connectedToMongoDB = false;
       console.error(`Erro na conexão ao MongoDB - ${err}`);
     }
   }
@@ -59,7 +58,7 @@ mongoose.connect(
 const { connection } = mongoose;
 
 connection.once('open', () => {
-  connectedToMongoDB = true;
+  let connectedToMongoDB = true;
   console.log('Conectado ao MongoDB');
 
   /**
