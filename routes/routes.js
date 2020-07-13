@@ -3,4 +3,4 @@ const transactionRouter = express.Router();
 
 transactionRouter.get('/*');
 
-export default { transactionRouter };
+export { transactionRouter };

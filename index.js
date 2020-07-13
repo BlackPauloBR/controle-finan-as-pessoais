@@ -1,11 +1,11 @@
 import express from 'express';
 import cors from 'cors';
 import mongoose from 'mongoose';
-import routes from './routes/routes.js';
+import { transactionRouter as routes } from './routes/routes.js';
 import dotenv from 'dotenv';
+import dirname from 'es-dirname';
 import path from 'path';
-const __dirname = path.dirname(new URL(import.meta.url).pathname);
-
+console.log(dirname());
 /**
  * Faz a leitura do arquivo
  * ".env" por padrão
@@ -19,7 +19,7 @@ app.use(express.json());
 /**
  * Vinculando o React ao app
  */
-app.use(express.static(path.join(__dirname, 'client/build')));
+app.use(express.static(path.join(dirname(), 'client/build')));
 
 /**
  * Rota raiz
