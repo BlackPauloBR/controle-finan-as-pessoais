@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import mongoose from 'mongoose';
-import { transactionRouter as routes } from './routes/routes.js';
+import { routes } from './routes/routes.js';
 import dotenv from 'dotenv';
 import path from 'path';
 const __dirname = path.resolve().normalize();
@@ -18,7 +18,7 @@ app.use(express.json());
 /**
  * Vinculando o React ao app
  */
-app.use(express.static(path.join(__dirname, 'client\build')));
+app.use(express.static(path.join(__dirname, 'client/build')));
 
 /**
  * Rota raiz
@@ -46,6 +46,7 @@ mongoose.connect(
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    useFindAndModify: false,
   },
   (err) => {
     if (err) {

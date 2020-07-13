@@ -1,6 +1,14 @@
 import express from 'express';
+import service from '../services/transactionService.js';
 const transactionRouter = express.Router();
 
-transactionRouter.get('/*');
+//Criação das Rotas
+transactionRouter.get('/:yearMonth', service.listaYearMonth);
 
-export { transactionRouter };
+transactionRouter.post('/', service.insert);
+
+transactionRouter.patch('/:_id', service.update);
+
+transactionRouter.delete('/:_id', service.remove);
+
+export { transactionRouter as routes };
