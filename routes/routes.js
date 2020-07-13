@@ -1,6 +1,6 @@
-const express = require('express');
+import express from 'express';
 const transactionRouter = express.Router();
 
 transactionRouter.get('/*');
 
-module.exports = transactionRouter;
+export default { transactionRouter };
