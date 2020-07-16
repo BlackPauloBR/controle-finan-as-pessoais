@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Spinner from './component/Spinner';
 import List from './component/lista/List';
-
+import 'materialize-css';
+import Selec from './component/lista/Selec';
 export default function App() {
-  const [yearMonth] = useState('2020-10');
+  const [yearMonth, setYearMonth] = useState('2020-10');
   const [list, setList] = useState(null);
 
   useEffect(() => {
@@ -17,6 +18,10 @@ export default function App() {
     fetchData();
   }, [yearMonth]);
 
+  const handleSelect = (value) => {
+    setYearMonth(value);
+  };
+
   return (
     <>
       {list ? (
@@ -27,7 +32,7 @@ export default function App() {
               <strong>Status: API online</strong>
             </h5>
           </span>
-
+          <Selec theYearMonth={handleSelect}></Selec>
           <List theList={list} />
         </>
       ) : (
