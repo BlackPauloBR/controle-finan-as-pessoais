@@ -1,10 +1,12 @@
 import React from 'react';
 import { formatValue, formatDay } from '../../helpers/helpers.js';
-export default function Transaction({ theInfo }) {
+import ButtonAction from '../ButtonAction.js';
+export default function Transaction({ theInfo, handleDelete, handleEdit }) {
   const showValue = formatValue(theInfo.value);
   const showDay = formatDay(theInfo.day);
   let corType = '#c0392b';
   if (theInfo.type === '+') corType = '#27ae60';
+
   return (
     <>
       <div
@@ -16,24 +18,25 @@ export default function Transaction({ theInfo }) {
           alignContent: 'center',
           alignItems: 'center',
           justifyItems: 'left',
-          padding: '5px',
           backgroundColor: corType,
           color: 'white',
-          maxWidth: '600px',
+          maxWidth: '650px',
+          minWidth: '650px',
           maxHeight: '90px',
-          marginLeft: '10px',
-          marginRight: '10px',
+          minHeight: '90px',
           marginBottom: '5px',
         }}
       >
-        <h2 style={{ padding: '5px' }}>{showDay}</h2>
+        <h2 style={{ padding: '5px', minWidth: '60px', maxWidth: '60px' }}>
+          {showDay}
+        </h2>
         <div
           style={{
             color: 'white',
             fontSize: '1.2rem',
             padding: '5px',
-            maxWidth: '300px',
-            minWidth: '300px',
+            minWidth: '350px',
+            maxWidth: '350px',
             alignContent: 'center',
           }}
         >
@@ -41,8 +44,25 @@ export default function Transaction({ theInfo }) {
           <br />
           <span>{theInfo.description}</span>
         </div>
-        <div>
-          <span style={{ fontSize: '1.1rem' }}>{showValue}</span>
+        <div
+          style={{ display: 'flex', flexDirection: 'row', minWidth: '140px' }}
+        >
+          <ButtonAction
+            icon="delete"
+            theInfo={theInfo}
+            handleButton={handleDelete}
+          />
+          <ButtonAction
+            icon="edit"
+            theInfo={theInfo}
+            handleButton={handleEdit}
+          />
+
+          <span
+            style={{ margin: '8px', marginLeft: '15px', fontSize: '1.1rem' }}
+          >
+            {showValue}
+          </span>
         </div>
       </div>
     </>

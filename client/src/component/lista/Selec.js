@@ -1,33 +1,15 @@
 import React from 'react';
-import { Select } from 'react-materialize';
-export default function Selec({ theYearMonth }) {
+export default function Selec({ theYearMonth, currentPeriod }) {
   const handleSelect = (event) => {
     theYearMonth(event.target.value);
   };
 
   return (
-    <Select
-      id="Select-9"
-      multiple={false}
+    <select
+      className="browser-default"
       onChange={handleSelect}
-      options={{
-        classes: '',
-        dropdownOptions: {
-          alignment: 'left',
-          autoTrigger: true,
-          closeOnClick: true,
-          constrainWidth: true,
-          coverTrigger: true,
-          hover: false,
-          inDuration: 150,
-          onCloseEnd: null,
-          onCloseStart: null,
-          onOpenEnd: null,
-          onOpenStart: null,
-          outDuration: 250,
-        },
-      }}
-      value=""
+      style={{ maxWidth: '150px' }}
+      value={currentPeriod}
     >
       <option disabled value="">
         Selecione uma data para verificação
@@ -70,6 +52,6 @@ export default function Selec({ theYearMonth }) {
       <option value="2021-10">OUT/2021</option>
       <option value="2021-11">NOV/2021</option>
       <option value="2021-12">DEZ/2021</option>
-    </Select>
+    </select>
   );
 }

@@ -11,3 +11,4 @@ export function formatDay(day) {
   }
   return day;
 }
+
