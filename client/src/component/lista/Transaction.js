@@ -27,9 +27,17 @@ export default function Transaction({ theInfo, handleDelete, handleEdit }) {
           marginBottom: '5px',
         }}
       >
-        <h2 style={{ padding: '5px', minWidth: '60px', maxWidth: '60px' }}>
+        <span
+          style={{
+            padding: '5px',
+            marginLeft: '5px',
+            minWidth: '60px',
+            maxWidth: '60px',
+            fontSize: '3.5rem',
+          }}
+        >
           {showDay}
-        </h2>
+        </span>
         <div
           style={{
             color: 'white',
