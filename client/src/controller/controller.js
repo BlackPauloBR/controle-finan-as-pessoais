@@ -8,4 +8,8 @@ async function deleteTransaction({ _id }) {
   }
 }
 
-export default { deleteTransaction };
+async function createTransactions(transaction) {
+  console.log('cria transação');
+}
+
+export default { deleteTransaction, createTransactions };

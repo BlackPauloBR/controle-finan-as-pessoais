@@ -49,3 +49,38 @@ export function nextYearMonth(currentYearMonth) {
 
   return `${year}-${month}`;
 }
+
+export function calcBarStatus(theList) {
+  let barStatus = {
+    lengthTransaction: null,
+    totalReceitas: null,
+    totalDespesas: null,
+    saldo: null,
+  };
+
+  barStatus.lengthTransaction = theList.length;
+  barStatus.totalReceitas = theList.transactions.reduce((acc, prop) => {
+    if (prop.type === '+') acc = acc + prop.value;
+    return acc;
+  }, 0);
+  barStatus.totalDespesas = theList.transactions.reduce((acc, prop) => {
+    if (prop.type === '-') acc = acc + prop.value;
+    return acc;
+  }, 0);
+
+  barStatus.saldo = barStatus.totalReceitas - barStatus.totalDespesas;
+
+  return barStatus;
+}
+
+export function filterList(theList, value) {
+  const textInput = value.toLowerCase();
+  let newSearchList = { length: null, transactions: [] };
+  theList.transactions.forEach((prop) => {
+    if (!!prop.description.toLowerCase().match(textInput)) {
+      newSearchList.transactions.push(prop);
+      newSearchList.length = newSearchList.transactions.length;
+    }
+  });
+  return newSearchList;
+}
