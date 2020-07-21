@@ -93,7 +93,7 @@ export default function WindowModal({
           <button
             className="btn-small modal-close waves-effect waves-green "
             style={{ backgroundColor: 'green', borderRadius: '5px' }}
-            onChange={handleModalSave}
+            onClick={handleModalSave}
             disabled={bolean}
           >
             <i className="material-icons left">save</i>SALVAR

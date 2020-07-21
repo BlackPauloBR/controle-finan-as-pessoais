@@ -5,7 +5,9 @@ const ObjectId = mongoose.Types.ObjectId;
 const listaYearMonth = async (req, res) => {
   try {
     const { yearMonth } = req.params;
-    const list = await TransactionModel.find({ yearMonth });
+    const list = await TransactionModel.find({ yearMonth }).sort({
+      day: 1,
+    });
     res.send({ length: list.length, transactions: list });
   } catch (err) {
     res.status(500).send(err);
@@ -14,6 +16,7 @@ const listaYearMonth = async (req, res) => {
 
 const insert = async (req, res) => {
   try {
+    console.log(req.body);
     const transaction = new TransactionModel(req.body);
     await transaction.save();
     res.send(transaction);

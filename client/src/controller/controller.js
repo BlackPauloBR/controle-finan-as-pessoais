@@ -9,7 +9,11 @@ async function deleteTransaction({ _id }) {
 }
 
 async function createTransactions(transaction) {
-  console.log('cria transação');
+  try {
+    return await http.post(`/`, transaction);
+  } catch (err) {
+    console.log(`Erro ao criar transação: ${transaction}`);
+  }
 }
 
 export default { deleteTransaction, createTransactions };

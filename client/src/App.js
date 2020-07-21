@@ -16,6 +16,7 @@ export default function App() {
   const [yearMonth, setYearMonth] = useState('2019-02');
   const [list, setList] = useState(null);
   const [closeModal, setCloseModal] = useState(false);
+  const [created, setCreated] = useState(false);
   const [isDeleted, setIsDeleted] = useState(null);
   const [searchList, setSearchList] = useState(list);
   const [searchText, setSearchText] = useState('');
@@ -46,7 +47,7 @@ export default function App() {
       setList(json);
     };
     fetchData();
-  }, [yearMonth, isDeleted, searchText]);
+  }, [yearMonth, isDeleted, searchText, created]);
 
   useEffect(() => {
     /*
@@ -79,6 +80,7 @@ export default function App() {
   const handleEdit = (theInfo) => {
     //função que manuseara a edição da transaction;
     console.log('chegando em handleEdit de App.js');
+    console.log(theInfo);
   };
 
   const handleButtonBack = () => {
@@ -159,14 +161,20 @@ export default function App() {
     setCloseModal(!closeModal);
   };
 
-  const handleModalSave = () => {
-    /*
-      Quando clica em save, ativa esta função, que chama o newTransaction atual
-      e aplica uma funçção de persistencia no banco, é necessario avisar para o React,
-      para ele realizar um refresh puxando os novos valores do banco. (avisar via useEffect, ainda não sei qual state monitorar)
-      é uma possibilidade criar, um state para este botão, pois ao ser clicado significa que os dados estão validos para envio,
-      e é a desculpa perfeita para solicitar o refresh;
-    */
+  const handleModalSave = async () => {
+    // Quando clica em save, ativa esta função, que chama o newTransaction atual
+    // já validado, pois o button Save só fica disponivel para clique, se os valores inseridos estiverem corretos.
+
+    //e aplica uma funçção de persistencia no banco
+    const res = await controller.createTransactions(newTransaction);
+
+    if (res.status === 200) {
+      //se o objeto foi criado com sucesso com 200 de resposta, ele altera o valor de created, para solicitar um refresh do React;
+      setCloseModal(!closeModal);
+
+      //importante para limpar os campos do modal, e deixa desabilitado o button Save na proxima abertura;
+      setCreated(!created);
+    }
   };
 
   return (

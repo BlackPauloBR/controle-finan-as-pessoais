@@ -9,6 +9,8 @@ function date(currentDate) {
   if (day >= 1 && day <= 31) {
     if (month >= 1 && month <= 12) {
       if (year >= 2019 && year <= 2021) {
+        if (day < 10) day = `0${day}`;
+        if (month < 10) month = `0${month}`;
         return {
           year,
           month,
