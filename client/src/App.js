@@ -159,6 +159,16 @@ export default function App() {
     setCloseModal(!closeModal);
   };
 
+  const handleModalSave = () => {
+    /*
+      Quando clica em save, ativa esta função, que chama o newTransaction atual
+      e aplica uma funçção de persistencia no banco, é necessario avisar para o React,
+      para ele realizar um refresh puxando os novos valores do banco. (avisar via useEffect, ainda não sei qual state monitorar)
+      é uma possibilidade criar, um state para este botão, pois ao ser clicado significa que os dados estão validos para envio,
+      e é a desculpa perfeita para solicitar o refresh;
+    */
+  };
+
   return (
     <>
       {list ? (
@@ -215,6 +225,7 @@ export default function App() {
               handleModalValue={handleModalValue}
               handleModalDate={handleModalDate}
               disabledSave={disabledSave}
+              handleModalSave={handleModalSave}
               closeModal={closeModal}
             />
             <Search theList={list} handleSearchInput={handleSearchInput} />

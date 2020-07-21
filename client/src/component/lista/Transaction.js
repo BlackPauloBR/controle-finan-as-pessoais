@@ -25,6 +25,7 @@ export default function Transaction({ theInfo, handleDelete, handleEdit }) {
           maxHeight: '90px',
           minHeight: '90px',
           marginBottom: '5px',
+          borderRadius: '10px',
         }}
       >
         <span

@@ -13,9 +13,14 @@ export default function WindowModal({
   handleModalValue,
   handleModalDate,
   disabledSave,
+  handleModalSave,
   handleCloseModal,
   closeModal,
 }) {
+  useEffect(() => {
+    M.AutoInit();
+  }, []);
+
   if (resetTextInput !== '') {
     //Necessario para desativar NOVO LANÇAMENTO, caso tenha algo digitado no campo Pesquisa;
     resetTextInput = 'disabled';
@@ -23,21 +28,12 @@ export default function WindowModal({
 
   let bolean = validate.disabled(disabledSave);
 
-  useEffect(() => {
-    M.AutoInit();
-  }, []);
-
-  // cCloseModal = () => {
-  //   /*Os inputs estão monitorando a variavel isOpen, para saber a
-  //   hora de resetar os valores*/
-  //   setIsOpen(!isOpen);
-  // };
-
   return (
     <div>
       <button
         className={`waves-effect waves-light btn modal-trigger ${resetTextInput}`}
         href="#modal1"
+        style={{ borderRadius: '5px' }}
       >
         <i className="material-icons left">add</i>Novo Lançamento
       </button>
@@ -97,6 +93,7 @@ export default function WindowModal({
           <button
             className="btn-small modal-close waves-effect waves-green "
             style={{ backgroundColor: 'green', borderRadius: '5px' }}
+            onChange={handleModalSave}
             disabled={bolean}
           >
             <i className="material-icons left">save</i>SALVAR
