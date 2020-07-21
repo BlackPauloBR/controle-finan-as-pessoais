@@ -8,13 +8,11 @@ export default function InputModal({
   type,
   closeModal,
 }) {
-  //Se o modal for aberto por Edit, inicialize com o valor da transação em edição;
   const [resetValue, setResetValue] = useState('');
 
-  console.log(theInfoValue);
+  //Se o modal for aberto por Edit, inicialize com o valor da transação em edição;
   //Se o modal for aberto por Novo Lançamento, inicialize '';
   useEffect(() => {
-    console.log(buttonOpenModal);
     if (buttonOpenModal === 'ButtonEditTransaction') {
       setResetValue(theInfoValue);
     }

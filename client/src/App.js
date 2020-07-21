@@ -57,13 +57,17 @@ export default function App() {
       Toda vez que o modal for fechado, o estado é resetado, desativando 
       o botão save na proxima abertura do modal
     */
+    let bolean = true;
+    if (buttonOpenModal === 'ButtonEditTransaction') {
+      bolean = false;
+    }
     setDisabledSave({
-      description: true,
-      category: true,
-      value: true,
-      date: true,
+      description: bolean,
+      category: bolean,
+      value: bolean,
+      date: bolean,
     });
-  }, [closeModal]);
+  }, [closeModal, buttonOpenModal]);
 
   const handleSelect = (value) => {
     setYearMonth(value);
