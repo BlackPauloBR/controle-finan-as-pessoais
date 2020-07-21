@@ -6,21 +6,38 @@ import { REACT_APP_API_URL } from './http-common.js';
 import controller from './controller/controller.js';
 import ButtonNext from './component/ButtonNext';
 import { backYearMonth, nextYearMonth, filterList } from './helpers/helpers.js';
+import validate from './helpers/validateTransaction.js';
 import Search from './component/Search';
 import WindowModal from './component/modal/WindowModal.js';
 import BarStatus from './component/BarStatus';
 //Necessario para funcionamento das animações do materialize, realizar a chamada dentro de useEffect
-import M from 'materialize-css';
 
 export default function App() {
   const [yearMonth, setYearMonth] = useState('2019-02');
   const [list, setList] = useState(null);
+  const [closeModal, setCloseModal] = useState(false);
   const [isDeleted, setIsDeleted] = useState(null);
   const [searchList, setSearchList] = useState(list);
   const [searchText, setSearchText] = useState('');
+  const [disabledSave, setDisabledSave] = useState({
+    description: true,
+    category: true,
+    value: true,
+    date: true,
+  });
+  const [newTransaction, setNewTransaction] = useState({
+    description: null,
+    value: null,
+    category: null,
+    year: null,
+    month: null,
+    day: null,
+    yearMonth: null,
+    yearMonthDay: null,
+    type: '-',
+  });
 
   useEffect(() => {
-    M.AutoInit();
     const fetchData = async () => {
       const res = await fetch(`${REACT_APP_API_URL}/${yearMonth}`);
       const json = await res.json();
@@ -31,10 +48,22 @@ export default function App() {
     fetchData();
   }, [yearMonth, isDeleted, searchText]);
 
+  useEffect(() => {
+    /*
+      Toda vez que o modal for fechado, o estado é resetado, desativando 
+      o botão save na proxima abertura do modal
+    */
+    setDisabledSave({
+      description: true,
+      category: true,
+      value: true,
+      date: true,
+    });
+  }, [closeModal]);
+
   const handleSelect = (value) => {
     setYearMonth(value);
   };
-  useEffect(() => {}, [list]);
 
   const handleDelete = async (theInfo) => {
     try {
@@ -69,17 +98,65 @@ export default function App() {
     setSearchText(textInput);
   };
 
+  const handleModalSwitch = (type) => {
+    setNewTransaction({ ...newTransaction, type });
+  };
+
   const handleModalDescription = (text) => {
-    console.log(text);
+    let bolean = true;
+    if (!!text) {
+      if (text !== '') {
+        setNewTransaction({ ...newTransaction, description: text });
+        bolean = false;
+      }
+    }
+    setDisabledSave({ ...disabledSave, description: bolean });
   };
   const handleModalCategory = (text) => {
-    console.log(text);
+    let bolean = true;
+    if (!!text) {
+      if (text !== '') {
+        setNewTransaction({ ...newTransaction, category: text });
+        bolean = false;
+      }
+    }
+    setDisabledSave({ ...disabledSave, category: bolean });
   };
   const handleModalValue = (value) => {
-    console.log(value);
+    let bolean = true;
+    if (!!value) {
+      if (value >= 0) {
+        setNewTransaction({ ...newTransaction, value: +value });
+        bolean = false;
+      }
+    }
+    setDisabledSave({ ...disabledSave, value: bolean });
   };
   const handleModalDate = (date) => {
-    console.log(date);
+    let bolean = false;
+    let objDate = validate.date(date);
+
+    if (!objDate) {
+      //Se a data o input for invalida, retorna objDate === undefined e reseta o objeto, para estado inicial;
+      bolean = true;
+      objDate = {
+        year: null,
+        month: null,
+        day: null,
+        yearMonth: null,
+        yearMonthDay: null,
+      };
+    }
+
+    setNewTransaction({ ...newTransaction, ...objDate });
+    setDisabledSave({
+      ...disabledSave,
+      date: bolean /* libera||bloqueia o disabled referente a date */,
+    });
+  };
+
+  const handleCloseModal = () => {
+    setCloseModal(!closeModal);
   };
 
   return (
@@ -130,11 +207,15 @@ export default function App() {
             }}
           >
             <WindowModal
+              handleCloseModal={handleCloseModal}
               resetTextInput={searchText}
+              handleModalSwitch={handleModalSwitch}
               handleModalDescription={handleModalDescription}
               handleModalCategory={handleModalCategory}
               handleModalValue={handleModalValue}
               handleModalDate={handleModalDate}
+              disabledSave={disabledSave}
+              closeModal={closeModal}
             />
             <Search theList={list} handleSearchInput={handleSearchInput} />
           </div>

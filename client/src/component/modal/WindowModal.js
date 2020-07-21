@@ -1,32 +1,37 @@
-import React, { useState, useEffect } from 'react';
-import M from 'materialize-css';
+import React, { useEffect } from 'react';
 import SwitchModal from './SwitchModal';
 import InputModal from './InputModal';
+import validate from '../../helpers/validateTransaction.js';
+import M from 'materialize-css';
+//Necessario para funcionamento das animações do materialize, realizar a chamada dentro de useEffect
 
 export default function WindowModal({
   resetTextInput,
+  handleModalSwitch,
   handleModalDescription,
   handleModalCategory,
   handleModalValue,
   handleModalDate,
+  disabledSave,
+  handleCloseModal,
+  closeModal,
 }) {
-  const [isOpen, setIsOpen] = useState(false);
-  const [disabledSave, setdisabledSave] = useState(true); //falta implementar em App.js a chegada e o envio do estado.
-
   if (resetTextInput !== '') {
-    //Necessario para resetar valores do input, ao reabrir modal.
+    //Necessario para desativar NOVO LANÇAMENTO, caso tenha algo digitado no campo Pesquisa;
     resetTextInput = 'disabled';
   }
+
+  let bolean = validate.disabled(disabledSave);
 
   useEffect(() => {
     M.AutoInit();
   }, []);
 
-  const handleIsOpen = () => {
-    /*Os inputs estão monitorando a variavel isOpen, para saber a 
-    hora de resetar os valores*/
-    setIsOpen(!isOpen);
-  };
+  // cCloseModal = () => {
+  //   /*Os inputs estão monitorando a variavel isOpen, para saber a
+  //   hora de resetar os valores*/
+  //   setIsOpen(!isOpen);
+  // };
 
   return (
     <div>
@@ -56,47 +61,43 @@ export default function WindowModal({
           >
             <button
               className="btn-small waves-effect waves-light modal-close red"
-              onClick={handleIsOpen}
-              style={{
-                display: 'flex',
-                maxWidth: '15px',
-                justifyContent: 'center',
-              }}
+              onClick={handleCloseModal}
+              style={{ borderRadius: '5px' }}
             >
               <i className="material-icons">close</i>
             </button>
           </div>
-          <SwitchModal disabled={false} />
+          <SwitchModal disabled={false} handleModalSwitch={handleModalSwitch} />
           <InputModal
             handleInputModal={handleModalDescription}
             name="Descrição"
             type="text"
-            isOpen={isOpen}
+            closeModal={closeModal}
           />
           <InputModal
             handleInputModal={handleModalCategory}
             name="Categoria"
             type="text"
-            isOpen={isOpen}
+            closeModal={closeModal}
           />
           <InputModal
             handleInputModal={handleModalValue}
             name="Valor"
             type="number"
-            isOpen={isOpen}
+            closeModal={closeModal}
           />
           <InputModal
             handleInputModal={handleModalDate}
             name="Data"
             type="date"
-            isOpen={isOpen}
+            closeModal={closeModal}
           />
         </div>
         <div className="modal-footer">
           <button
             className="btn-small modal-close waves-effect waves-green "
             style={{ backgroundColor: 'green', borderRadius: '5px' }}
-            disabled={disabledSave}
+            disabled={bolean}
           >
             <i className="material-icons left">save</i>SALVAR
           </button>

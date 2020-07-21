@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from 'react';
 
-export default function InputModal({ handleInputModal, name, type, isOpen }) {
+export default function InputModal({
+  handleInputModal,
+  name,
+  type,
+  closeModal,
+}) {
   const [resetValue, setResetValue] = useState('');
 
   useEffect(() => {
     setResetValue('');
-  }, [isOpen]);
+  }, [closeModal]);
 
   const handleInput = (event) => {
     setResetValue(event.target.value);

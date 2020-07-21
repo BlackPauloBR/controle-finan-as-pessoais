@@ -1,6 +1,10 @@
 import React from 'react';
 
-export default function SwitchModal({ disabled: bolean }) {
+export default function SwitchModal({ disabled: bolean, handleModalSwitch }) {
+  const handleInput = (event) => {
+    handleModalSwitch(event.target.value);
+  };
+
   return (
     <form
       action="#"
@@ -13,7 +17,14 @@ export default function SwitchModal({ disabled: bolean }) {
     >
       <p>
         <label>
-          <input name="group1" type="radio" defaultChecked disabled={bolean} />
+          <input
+            name="group1"
+            type="radio"
+            defaultChecked
+            disabled={bolean}
+            onChange={handleInput}
+            value="-"
+          />
           <span
             style={{
               fontWeight: 'bold',
@@ -24,7 +35,13 @@ export default function SwitchModal({ disabled: bolean }) {
           </span>
         </label>
         <label>
-          <input name="group1" type="radio" disabled={bolean} />
+          <input
+            name="group1"
+            type="radio"
+            disabled={bolean}
+            onChange={handleInput}
+            value="+"
+          />
           <span
             style={{
               fontWeight: 'bold',
