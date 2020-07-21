@@ -1,17 +1,26 @@
 import React from 'react';
-import WindowModal from './WindowModal';
 
-export default function NewTransaction() {
+export default function NewTransaction({
+  disabledButton,
+  handleClickOpenModal,
+}) {
+  if (disabledButton !== '') {
+    //Necessario para desativar NOVO LANÇAMENTO, caso tenha algo digitado no campo Pesquisa;
+    disabledButton = 'disabled';
+  }
+
+  const handleClick = () => {
+    handleClickOpenModal('ButtonNewTransaction');
+  };
+
   return (
-    <div>
-      <button
-        className={`waves-effect waves-light btn modal-trigger ${resetTextInput}`}
-        href="#modal1"
-        style={{ borderRadius: '5px' }}
-      >
-        <i className="material-icons left">add</i>Novo Lançamento
-      </button>
-      <WindowModal />
-    </div>
+    <button
+      className={`waves-effect waves-light btn modal-trigger ${disabledButton}`}
+      href="#modal1"
+      style={{ borderRadius: '5px' }}
+      onClick={handleClick}
+    >
+      <i className="material-icons left">add</i>Novo Lançamento
+    </button>
   );
 }

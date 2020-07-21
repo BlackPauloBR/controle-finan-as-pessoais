@@ -1,9 +1,15 @@
 import React from 'react';
 
-export default function SwitchModal({ disabled: bolean, handleModalSwitch }) {
+export default function SwitchModal({ buttonOpenModal, handleModalSwitch }) {
   const handleInput = (event) => {
     handleModalSwitch(event.target.value);
   };
+
+  //Se o modal for aberto por edit, desabilite o Switch
+  let disabledSwitch = false;
+  if (buttonOpenModal === 'ButtonEditTransaction') {
+    disabledSwitch = true;
+  }
 
   return (
     <form
@@ -21,14 +27,14 @@ export default function SwitchModal({ disabled: bolean, handleModalSwitch }) {
             name="group1"
             type="radio"
             defaultChecked
-            disabled={bolean}
+            disabled={disabledSwitch}
             onChange={handleInput}
             value="-"
           />
           <span
             style={{
               fontWeight: 'bold',
-              color: bolean ? '#b2bec3' : '#c0392b',
+              color: disabledSwitch ? '#b2bec3' : '#c0392b',
             }}
           >
             Despesa &nbsp; &nbsp;
@@ -38,14 +44,14 @@ export default function SwitchModal({ disabled: bolean, handleModalSwitch }) {
           <input
             name="group1"
             type="radio"
-            disabled={bolean}
+            disabled={disabledSwitch}
             onChange={handleInput}
             value="+"
           />
           <span
             style={{
               fontWeight: 'bold',
-              color: bolean ? '#b2bec3' : '#27ae60',
+              color: disabledSwitch ? '#b2bec3' : '#27ae60',
             }}
           >
             Receita

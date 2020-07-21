@@ -10,6 +10,7 @@ import validate from './helpers/validateTransaction.js';
 import Search from './component/Search';
 import WindowModal from './component/modal/WindowModal.js';
 import BarStatus from './component/BarStatus';
+import NewTransaction from './component/modal/NewTransaction';
 //Necessario para funcionamento das animações do materialize, realizar a chamada dentro de useEffect
 
 export default function App() {
@@ -20,6 +21,8 @@ export default function App() {
   const [isDeleted, setIsDeleted] = useState(null);
   const [searchList, setSearchList] = useState(list);
   const [searchText, setSearchText] = useState('');
+  const [currentTheInfo, setCurrentTheInfo] = useState({});
+  const [buttonOpenModal, setButtonOpenModal] = useState('');
   const [disabledSave, setDisabledSave] = useState({
     description: true,
     category: true,
@@ -80,7 +83,9 @@ export default function App() {
   const handleEdit = (theInfo) => {
     //função que manuseara a edição da transaction;
     console.log('chegando em handleEdit de App.js');
+    console.log('currentTheInfo: ');
     console.log(theInfo);
+    setCurrentTheInfo(theInfo);
   };
 
   const handleButtonBack = () => {
@@ -177,6 +182,17 @@ export default function App() {
     }
   };
 
+  const handleClickOpenModal = (text) => {
+    //função que descobri por qual botão foi aberto o WindowModal
+    if (text === 'ButtonNewTransaction') {
+      //faça algo...
+    }
+    if (text === 'ButtonEditTransaction') {
+      //faça algo...
+    }
+    setButtonOpenModal(text);
+  };
+
   return (
     <>
       {list ? (
@@ -224,9 +240,15 @@ export default function App() {
               alignItems: 'center',
             }}
           >
+            <NewTransaction
+              disabledButton={searchText}
+              handleClickOpenModal={handleClickOpenModal}
+            />
+
             <WindowModal
+              buttonOpenModal={buttonOpenModal}
+              currentTheInfo={currentTheInfo}
               handleCloseModal={handleCloseModal}
-              resetTextInput={searchText}
               handleModalSwitch={handleModalSwitch}
               handleModalDescription={handleModalDescription}
               handleModalCategory={handleModalCategory}
@@ -242,6 +264,7 @@ export default function App() {
             theList={searchList}
             handleDelete={handleDelete}
             handleEdit={handleEdit}
+            handleClickOpenModal={handleClickOpenModal}
           />
         </div>
       ) : (

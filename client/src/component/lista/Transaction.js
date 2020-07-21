@@ -1,7 +1,12 @@
 import React from 'react';
 import { formatValue, formatDay } from '../../helpers/helpers.js';
 import ButtonAction from '../ButtonAction.js';
-export default function Transaction({ theInfo, handleDelete, handleEdit }) {
+export default function Transaction({
+  theInfo,
+  handleDelete,
+  handleEdit,
+  handleClickOpenModal,
+}) {
   const showValue = formatValue(theInfo.value);
   const showDay = formatDay(theInfo.day);
   let corType = '#c0392b';
@@ -65,6 +70,7 @@ export default function Transaction({ theInfo, handleDelete, handleEdit }) {
             icon="edit"
             theInfo={theInfo}
             handleButton={handleEdit}
+            handleClickOpenModal={handleClickOpenModal}
           />
 
           <span

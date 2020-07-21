@@ -1,7 +1,12 @@
 import React from 'react';
 import Transaction from './Transaction';
 
-export default function List({ theList, handleDelete, handleEdit }) {
+export default function List({
+  theList,
+  handleDelete,
+  handleEdit,
+  handleClickOpenModal,
+}) {
   const { transactions } = theList;
   return (
     <>
@@ -16,6 +21,7 @@ export default function List({ theList, handleDelete, handleEdit }) {
               theInfo={item}
               handleDelete={handleDelete}
               handleEdit={handleEdit}
+              handleClickOpenModal={handleClickOpenModal}
             />
           );
         } else {
@@ -26,6 +32,7 @@ export default function List({ theList, handleDelete, handleEdit }) {
                 theInfo={item}
                 handleDelete={handleDelete}
                 handleEdit={handleEdit}
+                handleClickOpenModal={handleClickOpenModal}
               />
             </div>
           );
