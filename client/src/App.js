@@ -54,8 +54,8 @@ export default function App() {
 
   useEffect(() => {
     /*
-      Toda vez que o modal for fechado, o estado é resetado, desativando 
-      o botão save na proxima abertura do modal
+      Toda vez que o modal for fechado ou aberto, o estado é resetado, desativando
+      ou habilitando o botão save na proxima abertura do modal
     */
     let bolean = true;
     if (buttonOpenModal === 'ButtonEditTransaction') {
