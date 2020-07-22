@@ -52,6 +52,7 @@ export default function WindowModal({
         </div>
         <SwitchModal
           buttonOpenModal={buttonOpenModal}
+          theInfoValue={currentTheInfo.type}
           handleModalSwitch={handleModalSwitch}
         />
         <InputModal
