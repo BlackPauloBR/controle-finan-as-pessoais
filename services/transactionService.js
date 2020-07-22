@@ -16,7 +16,6 @@ const listaYearMonth = async (req, res) => {
 
 const insert = async (req, res) => {
   try {
-    console.log(req.body);
     const transaction = new TransactionModel(req.body);
     await transaction.save();
     res.send(transaction);

@@ -67,7 +67,26 @@ export default function App() {
       value: bolean,
       date: bolean,
     });
-  }, [closeModal, buttonOpenModal]);
+
+    /*
+      Toda vez que o modal for aberto, o estado de newTransaction é resetado,
+      porque é necessario?
+        porque ao abrir o modal por edit, ele manteria os valores anteriorer armazenados,
+        e ao usar o função validate.editTransaciton, ela não saberia quais valores foram alterados,
+        mas dessa forma, ela analisa, quem é null, e oque conter algum conteudo, foi o valor alterado.
+    */
+    setNewTransaction({
+      description: null,
+      value: null,
+      category: null,
+      year: null,
+      month: null,
+      day: null,
+      yearMonth: null,
+      yearMonthDay: null,
+      type: '-',
+    });
+  }, [buttonOpenModal, currentTheInfo]);
 
   const handleSelect = (value) => {
     setYearMonth(value);
@@ -86,9 +105,6 @@ export default function App() {
 
   const handleEdit = (theInfo) => {
     //função que manuseara a edição da transaction;
-    console.log('chegando em handleEdit de App.js');
-    console.log('currentTheInfo: ');
-    console.log(theInfo);
     setCurrentTheInfo(theInfo);
   };
 
@@ -171,18 +187,38 @@ export default function App() {
   };
 
   const handleModalSave = async () => {
-    // Quando clica em save, ativa esta função, que chama o newTransaction atual
-    // já validado, pois o button Save só fica disponivel para clique, se os valores inseridos estiverem corretos.
+    if (buttonOpenModal === 'ButtonNewTransaction') {
+      // Quando clica em save, ativa esta função, que chama o newTransaction atual
+      // já validado, pois o button Save só fica disponivel para clique, se os valores inseridos estiverem corretos.
 
-    //e aplica uma funçção de persistencia no banco
-    const res = await controller.createTransactions(newTransaction);
+      //funçção de persistencia no banco
+      const res = await controller.createTransactions(newTransaction);
 
-    if (res.status === 200) {
-      //se o objeto foi criado com sucesso com 200 de resposta, ele altera o valor de created, para solicitar um refresh do React;
-      setCloseModal(!closeModal);
+      if (res.status === 200) {
+        //se o objeto foi criado com sucesso com 200 de resposta, ele altera o valor de created, para solicitar um refresh do React;
+        setCloseModal(!closeModal);
 
-      //importante para limpar os campos do modal, e deixa desabilitado o button Save na proxima abertura;
-      setCreated(!created);
+        //importante para limpar os campos do modal, e deixa desabilitado o button Save na proxima abertura;
+        setCreated(!created);
+      }
+    }
+
+    if (buttonOpenModal === 'ButtonEditTransaction') {
+      //Importante para copiar as alteraçoes feita ao editar a transição,
+      const newEditTransaction = validate.editTransaction(
+        newTransaction,
+        currentTheInfo
+      );
+
+      //Depois de copiar as alterações, o objeto pode ser persistido no banco.
+      const res = await controller.editTransactions(newEditTransaction);
+      if (res.status === 200) {
+        //importante para limpar os campos do modal, e deixa desabilitado o button Save na proxima abertura;
+        setCloseModal(!closeModal);
+
+        //se o objeto foi editado com sucesso com 200 de resposta, ele altera o valor de created, para solicitar um refresh do React;
+        setCreated(!created);
+      }
     }
   };
 
@@ -208,7 +244,6 @@ export default function App() {
             justifyItems: 'center',
           }}
         >
-          <h2>Controle de Finanças Pessoais</h2>
           <span>
             <h5>
               <strong>Status: API online</strong>

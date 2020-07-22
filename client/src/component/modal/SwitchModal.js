@@ -1,30 +1,37 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 export default function SwitchModal({
   buttonOpenModal,
   theInfoValue,
   handleModalSwitch,
 }) {
+  const [isDefault, setIsDefault] = useState(true);
+
+  useEffect(() => {
+    if (buttonOpenModal === 'ButtonEditTransaction') {
+      if (theInfoValue === '+') {
+        setIsDefault(false);
+      } else {
+        setIsDefault(true);
+      }
+    }
+  }, [theInfoValue, buttonOpenModal]);
+
   const handleInput = (event) => {
-    handleModalSwitch(event.target.value);
+    //Necessario pois handle só envia o clique, se for para Lançar uma transação nova.
+    if (buttonOpenModal === 'ButtonNewTransaction') {
+      if (event.target.value === '+') {
+        setIsDefault(false);
+      } else {
+        setIsDefault(true);
+      }
+      handleModalSwitch(event.target.value);
+    }
   };
 
-  //Se o modal for aberto por edit, desabilite o Switch
   let disabledSwitch = false;
-
-  //Se o modal for aberto por (Novo Lançamento/Edit), esse é o padrão.
-  let defaultLess = true;
-  let defaultMore = false;
-
   if (buttonOpenModal === 'ButtonEditTransaction') {
     disabledSwitch = true;
-
-    //Se o modal for aberto por edit, ele verifica se precisa alterar o valor default
-    //caso necessecite,  os valores padrões são invertidos.
-    if (theInfoValue === '+') {
-      defaultLess = false;
-      defaultMore = true;
-    }
   }
 
   return (
@@ -40,9 +47,10 @@ export default function SwitchModal({
       <p>
         <label>
           <input
+            className="with-gap"
             name="group1"
             type="radio"
-            checked={defaultLess}
+            checked={isDefault}
             disabled={disabledSwitch}
             onChange={handleInput}
             value="-"
@@ -58,9 +66,10 @@ export default function SwitchModal({
         </label>
         <label>
           <input
+            className="with-gap"
             name="group1"
             type="radio"
-            checked={defaultMore}
+            checked={!isDefault}
             disabled={disabledSwitch}
             onChange={handleInput}
             value="+"

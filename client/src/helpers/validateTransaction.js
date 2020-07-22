@@ -36,4 +36,29 @@ function disabled({ description, category, value, date }) {
   return true; //retornar true desabilita o button save, pois disabled={true}
 }
 
-export default { date, disabled };
+function editTransaction(newTransaction, currentTheInfo) {
+  const newEditTransaction = { ...currentTheInfo };
+  const {
+    description,
+    value,
+    category,
+    year,
+    month,
+    day,
+    yearMonth,
+    yearMonthDay,
+  } = newTransaction;
+
+  if (description !== null) newEditTransaction.description = description;
+  if (value !== null) newEditTransaction.value = value;
+  if (category !== null) newEditTransaction.category = category;
+  if (year !== null) newEditTransaction.year = year;
+  if (month !== null) newEditTransaction.month = month;
+  if (day !== null) newEditTransaction.day = day;
+  if (yearMonth !== null) newEditTransaction.yearMonth = yearMonth;
+  if (yearMonthDay !== null) newEditTransaction.yearMonthDay = yearMonthDay;
+  //Type é ignorado, pois essa função é especifica do Edit, onde é bloqueado o acesso ao type.
+  return newEditTransaction;
+}
+
+export default { date, disabled, editTransaction };
