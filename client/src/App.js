@@ -270,7 +270,7 @@ export default function App() {
             {isLoading ? (
               <BarLoading />
             ) : (
-              <div style={{ minHeight: '11px', maxHeight: '11px' }}></div>
+              <div style={{ minHeight: '10px', maxHeight: '10px' }}></div>
             )}
             <h5>
               <strong>Status: API online</strong>
