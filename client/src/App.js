@@ -42,7 +42,6 @@ export default function App() {
 
   useEffect(() => {
     const fetchData = async () => {
-      console.log(process.env.PORT);
       const res = await fetch(
         `https://black-financas-pessoais.herokuapp.com/api/transaction/${yearMonth}`
       );
