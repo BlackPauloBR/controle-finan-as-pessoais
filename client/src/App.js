@@ -44,8 +44,7 @@ export default function App() {
     const fetchData = async () => {
       console.log(process.env.PORT);
       const res = await fetch(
-        `http://localhost:3001/api/transaction/${yearMonth}` ||
-          `https://black-financas-pessoais.herokuapp.com/api/transaction/${yearMonth}`
+        `https://black-financas-pessoais.herokuapp.com/api/transaction/${yearMonth}`
       );
       const json = await res.json();
       const newSearchList = filterList(json, searchText);
