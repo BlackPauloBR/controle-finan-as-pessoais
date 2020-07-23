@@ -188,38 +188,42 @@ export default function App() {
   };
 
   const handleModalSave = async () => {
-    if (buttonOpenModal === 'ButtonNewTransaction') {
-      // Quando clica em save, ativa esta função, que chama o newTransaction atual
-      // já validado, pois o button Save só fica disponivel para clique, se os valores inseridos estiverem corretos.
+    try {
+      if (buttonOpenModal === 'ButtonNewTransaction') {
+        // Quando clica em save, ativa esta função, que chama o newTransaction atual
+        // já validado, pois o button Save só fica disponivel para clique, se os valores inseridos estiverem corretos.
 
-      //funçção de persistencia no banco
-      const res = await controller.createTransactions(newTransaction);
+        //funçção de persistencia no banco
+        const res = await controller.createTransactions(newTransaction);
 
-      if (res.status === 200) {
-        //se o objeto foi criado com sucesso com 200 de resposta, ele altera o valor de created, para solicitar um refresh do React;
-        setCloseModal(!closeModal);
+        if (res.status === 200) {
+          //se o objeto foi criado com sucesso com 200 de resposta, ele altera o valor de created, para solicitar um refresh do React;
+          setCloseModal(!closeModal);
 
-        //importante para limpar os campos do modal, e deixa desabilitado o button Save na proxima abertura;
-        setCreated(!created);
+          //importante para limpar os campos do modal, e deixa desabilitado o button Save na proxima abertura;
+          setCreated(!created);
+        }
       }
-    }
 
-    if (buttonOpenModal === 'ButtonEditTransaction') {
-      //Importante para copiar as alteraçoes feita ao editar a transição,
-      const newEditTransaction = validate.editTransaction(
-        newTransaction,
-        currentTheInfo
-      );
+      if (buttonOpenModal === 'ButtonEditTransaction') {
+        //Importante para copiar as alteraçoes feita ao editar a transição,
+        const newEditTransaction = validate.editTransaction(
+          newTransaction,
+          currentTheInfo
+        );
 
-      //Depois de copiar as alterações, o objeto pode ser persistido no banco.
-      const res = await controller.editTransactions(newEditTransaction);
-      if (res.status === 200) {
-        //importante para limpar os campos do modal, e deixa desabilitado o button Save na proxima abertura;
-        setCloseModal(!closeModal);
+        //Depois de copiar as alterações, o objeto pode ser persistido no banco.
+        const res = await controller.editTransactions(newEditTransaction);
+        if (res.status === 200) {
+          //importante para limpar os campos do modal, e deixa desabilitado o button Save na proxima abertura;
+          setCloseModal(!closeModal);
 
-        //se o objeto foi editado com sucesso com 200 de resposta, ele altera o valor de created, para solicitar um refresh do React;
-        setCreated(!created);
+          //se o objeto foi editado com sucesso com 200 de resposta, ele altera o valor de created, para solicitar um refresh do React;
+          setCreated(!created);
+        }
       }
+    } catch (err) {
+      console.log('Erro em handleModalSave em App.js');
     }
   };
 
