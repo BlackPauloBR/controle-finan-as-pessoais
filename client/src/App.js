@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { backYearMonth, nextYearMonth, filterList } from './helpers/helpers.js';
+import validate from './helpers/validateTransaction.js';
 import Spinner from './component/Spinner';
 import List from './component/lista/List';
 import Selec from './component/lista/Selec';
 import controller from './controller/controller.js';
 import ButtonNext from './component/ButtonNext';
-import { backYearMonth, nextYearMonth, filterList } from './helpers/helpers.js';
-import validate from './helpers/validateTransaction.js';
 import Search from './component/Search';
 import WindowModal from './component/modal/WindowModal.js';
 import BarStatus from './component/BarStatus';
@@ -42,13 +42,20 @@ export default function App() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await fetch(
-        `https://black-financas-pessoais.herokuapp.com/api/transaction/${yearMonth}`
+      // const res = await fetch(
+      //   //`https://black-financas-pessoais.herokuapp.com/api/transaction/${yearMonth}`
+      //   `http://localhost:3001/api/transaction/${yearMonth}`
+      // );
+      const res = await controller.getYearMonth(
+        'https://black-financas-pessoais.herokuapp.com',
+        yearMonth
       );
-      const json = await res.json();
-      const newSearchList = filterList(json, searchText);
-      setSearchList(newSearchList);
-      setList(json);
+      if (res.status === 200) {
+        const json = res.data;
+        const newSearchList = filterList(json, searchText);
+        setSearchList(newSearchList);
+        setList(json);
+      }
     };
     fetchData();
   }, [yearMonth, isDeleted, searchText, created]);
