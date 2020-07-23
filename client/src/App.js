@@ -45,10 +45,7 @@ export default function App() {
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
-      const res = await controller.getYearMonth(
-        'https://black-financas-pessoais.herokuapp.com',
-        yearMonth
-      );
+      const res = await controller.getYearMonth(yearMonth);
 
       if (res.status === 200) {
         setIsLoading(false);

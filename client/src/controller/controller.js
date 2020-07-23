@@ -1,11 +1,8 @@
 import http from '../http-common.js';
 
-async function getYearMonth(URL_API, yearMonth) {
+async function getYearMonth(yearMonth) {
   try {
-    return await http.get(
-      `http://localhost:3001/api/transaction/${yearMonth}` ||
-        `${URL_API}/api/transaction/${yearMonth}`
-    );
+    return await http.get(`/${yearMonth}`);
   } catch (err) {
     console.log(`Erro ao solicitar get yearMonth: ${yearMonth} , message: `);
     console.log(err);
