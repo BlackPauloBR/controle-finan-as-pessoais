@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import Spinner from './component/Spinner';
 import List from './component/lista/List';
 import Selec from './component/lista/Selec';
-import { REACT_APP_API_URL } from './http-common.js';
 import controller from './controller/controller.js';
 import ButtonNext from './component/ButtonNext';
 import { backYearMonth, nextYearMonth, filterList } from './helpers/helpers.js';
@@ -43,7 +42,11 @@ export default function App() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await fetch(`${REACT_APP_API_URL}/${yearMonth}`);
+      console.log(process.env.PORT);
+      const res = await fetch(
+        `http://localhost:3001/api/transaction/${yearMonth}` ||
+          `https://black-financas-pessoais.herokuapp.com/api/transaction/${yearMonth}`
+      );
       const json = await res.json();
       const newSearchList = filterList(json, searchText);
       setSearchList(newSearchList);
