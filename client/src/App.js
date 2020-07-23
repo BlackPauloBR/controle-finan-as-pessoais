@@ -266,12 +266,17 @@ export default function App() {
             justifyItems: 'center',
           }}
         >
+          <div
+            style={{
+              minHeight: '10px',
+              maxHeight: '10px',
+              minWidth: '350px',
+              maxWidth: '350px',
+            }}
+          >
+            {isLoading ? <BarLoading /> : <br />}
+          </div>
           <span>
-            {isLoading ? (
-              <BarLoading />
-            ) : (
-              <div style={{ minHeight: '10px', maxHeight: '10px' }}></div>
-            )}
             <h5>
               <strong>Status: API online</strong>
             </h5>
