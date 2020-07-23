@@ -100,7 +100,8 @@ export default function App() {
         setIsDeleted({ ...theInfo });
       }
     } catch (err) {
-      console.log('Erro ao deletar Objeto');
+      console.log(`Erro ao deletar Objeto, messagem: `);
+      console.log(err);
     }
   };
 
@@ -223,7 +224,8 @@ export default function App() {
         }
       }
     } catch (err) {
-      console.log('Erro em handleModalSave em App.js');
+      console.log('Erro em handleModalSave em App.js, messagem: ');
+      console.log(err);
     }
   };
 
