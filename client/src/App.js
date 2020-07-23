@@ -10,6 +10,7 @@ import Search from './component/Search';
 import WindowModal from './component/modal/WindowModal.js';
 import BarStatus from './component/BarStatus';
 import NewTransaction from './component/modal/NewTransaction';
+import BarLoading from './component/BarLoading.js';
 //Necessario para funcionamento das animações do materialize, realizar a chamada dentro de useEffect
 
 export default function App() {
@@ -22,6 +23,7 @@ export default function App() {
   const [searchText, setSearchText] = useState('');
   const [currentTheInfo, setCurrentTheInfo] = useState({});
   const [buttonOpenModal, setButtonOpenModal] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const [disabledSave, setDisabledSave] = useState({
     description: true,
     category: true,
@@ -42,15 +44,14 @@ export default function App() {
 
   useEffect(() => {
     const fetchData = async () => {
-      // const res = await fetch(
-      //   //`https://black-financas-pessoais.herokuapp.com/api/transaction/${yearMonth}`
-      //   `http://localhost:3001/api/transaction/${yearMonth}`
-      // );
+      setIsLoading(true);
       const res = await controller.getYearMonth(
         'https://black-financas-pessoais.herokuapp.com',
         yearMonth
       );
+
       if (res.status === 200) {
+        setIsLoading(false);
         const json = res.data;
         const newSearchList = filterList(json, searchText);
         setSearchList(newSearchList);
@@ -59,6 +60,8 @@ export default function App() {
     };
     fetchData();
   }, [yearMonth, isDeleted, searchText, created]);
+
+  useEffect(() => {}, [isLoading]);
 
   useEffect(() => {
     /*
@@ -102,8 +105,11 @@ export default function App() {
 
   const handleDelete = async (theInfo) => {
     try {
+      setIsLoading(true);
       const res = await controller.deleteTransaction(theInfo);
+
       if (res.status === 200) {
+        setIsLoading(false);
         setIsDeleted({ ...theInfo });
       }
     } catch (err) {
@@ -202,9 +208,11 @@ export default function App() {
         // já validado, pois o button Save só fica disponivel para clique, se os valores inseridos estiverem corretos.
 
         //funçção de persistencia no banco
+        setIsLoading(true);
         const res = await controller.createTransactions(newTransaction);
 
         if (res.status === 200) {
+          setIsLoading(false);
           //se o objeto foi criado com sucesso com 200 de resposta, ele altera o valor de created, para solicitar um refresh do React;
           setCloseModal(!closeModal);
 
@@ -221,8 +229,11 @@ export default function App() {
         );
 
         //Depois de copiar as alterações, o objeto pode ser persistido no banco.
+        setIsLoading(true);
         const res = await controller.editTransactions(newEditTransaction);
+
         if (res.status === 200) {
+          setIsLoading(false);
           //importante para limpar os campos do modal, e deixa desabilitado o button Save na proxima abertura;
           setCloseModal(!closeModal);
 
@@ -259,6 +270,11 @@ export default function App() {
           }}
         >
           <span>
+            {isLoading ? (
+              <BarLoading />
+            ) : (
+              <div style={{ minHeight: '11px', maxHeight: '11px' }}></div>
+            )}
             <h5>
               <strong>Status: API online</strong>
             </h5>
