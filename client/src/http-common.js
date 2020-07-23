@@ -1,7 +1,9 @@
 import axios from 'axios';
 
+const BASE_URL = process.env.REACT_APP_BASE_URL;
+
 export default axios.create({
-  baseURL: `https://black-financas-pessoais.herokuapp.com/api/transaction`,
+  baseURL: `${BASE_URL}`,
   headers: {
     'Content-type': 'application/json',
   },
