@@ -12,11 +12,7 @@ const __dirname = path.resolve().normalize();
 dotenv.config();
 
 const app = express();
-app.use(
-  cors({
-    origin: 'https://black-financas-pessoais.herokuapp.com',
-  })
-);
+app.use(cors());
 app.use(express.json());
 
 /**
