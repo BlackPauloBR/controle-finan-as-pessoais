@@ -14,7 +14,7 @@ dotenv.config();
 const app = express();
 app.use(
   cors({
-    origin: 'https://black-financas-pessoais.herokuapp.com/api/transaction',
+    origin: 'https://black-financas-pessoais.herokuapp.com',
   })
 );
 app.use(express.json());
