@@ -15,6 +15,9 @@ export default function SwitchModal({
         setIsDefault(true);
       }
     }
+    if (buttonOpenModal === 'ButtonNewTransaction') {
+      setIsDefault(true);
+    }
   }, [theInfoValue, buttonOpenModal]);
 
   const handleInput = (event) => {
